@@ -1,1 +1,297 @@
+/* style.css */
 
+:root {
+  --pink: #FF45ED;
+  --violet: #8F48FF;
+  --cyan: #71F5FF;
+  --yellow: #FFFA48;
+
+  --text: #121212;
+  --muted: #666666;
+  --light: #F7F7F7;
+
+  --max-width: 1200px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background: white;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+p {
+  color: var(--muted);
+}
+
+.hero {
+  min-height: 100vh;
+  padding: 2rem 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.logo span {
+  color: var(--pink);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.hero-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  min-height: 85vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 0.95;
+  margin-bottom: 2rem;
+}
+
+.hero h1 span {
+  background: linear-gradient(
+    90deg,
+    var(--pink),
+    var(--violet)
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  max-width: 520px;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 1rem 1.6rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    90deg,
+    var(--pink),
+    var(--violet)
+  );
+
+  color: white;
+}
+
+.btn-secondary {
+  border: 1px solid #ddd;
+  color: var(--text);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gradient-orb {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle at top left, var(--pink), transparent 40%),
+    radial-gradient(circle at bottom, var(--cyan), transparent 40%),
+    radial-gradient(circle at right, var(--yellow), transparent 30%),
+    radial-gradient(circle at center, var(--violet), transparent 50%);
+
+  filter: blur(20px);
+  opacity: 0.85;
+}
+
+.section {
+  padding: 8rem 5%;
+}
+
+.section-light {
+  background: var(--light);
+}
+
+.section-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.narrow {
+  max-width: 850px;
+}
+
+.section-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  margin-bottom: 1.5rem;
+  color: var(--muted);
+}
+
+.section h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.section p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.body-copy {
+  padding-top: 4rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid #eee;
+}
+
+.card h3 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.closing-section {
+  padding-top: 12rem;
+  padding-bottom: 12rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.closing-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 1;
+}
+
+footer {
+  padding: 4rem 5%;
+  border-top: 1px solid #eee;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer a {
+  text-decoration: none;
+  color: var(--pink);
+}
+
+@media (max-width: 900px) {
+
+  .hero-content,
+  .two-columns,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 1.5rem;
+  }
+
+  .hero-content {
+    padding-top: 4rem;
+  }
+
+  .gradient-orb {
+    width: 320px;
+    height: 320px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
