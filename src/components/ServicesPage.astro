@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+import { ui, href, LINKS, type Lang } from '../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const p = t.path;
+const stages = [
+  { c: '#CDB4FF', level: 1, size: 18 },
+  { c: '#9B6BFF', level: 2, size: 22 },
+  { c: '#6B28E0', level: 3, size: 26 },
+];
+---
+<Base lang={lang} page="services" title={t.meta.servicesTitle} description={t.meta.servicesDesc}>
+  <section class="services-page" id="services">
+    <div class="container">
+      <a class="back" href={href(lang)}><span aria-hidden="true">←</span>{t.nav.home}</a>
+      <div class="eyebrow" data-reveal>Services</div>
+      <h1 class="page-title" data-reveal>{t.services.title} <em>{t.services.titleB}</em></h1>
+
+      <div class="mentor-big" data-reveal>
+        <div>
+          <div class="tag">{t.services.mentorTag}</div>
+          <h2 class="h3">{t.services.mentorTitle}</h2>
+          <p class="mentor-text">{t.services.mentorText}</p>
+        </div>
+        <div class="mentor-actions">
+          <a class="btn btn-card" href={LINKS.booking} target="_blank" rel="noopener">{t.cta}</a>
+          <span class="small">{t.services.byEmail}<a class="link" href={LINKS.email}>hello@moemo.io<span class="arr" aria-hidden="true">↗</span></a></span>
+        </div>
+      </div>
+
+      <div class="path-head" data-reveal>
+        <h2 class="h2">{p.title}<span class="sub">{p.titleB}</span></h2>
+        <div class="gauge" aria-hidden="true">{p.light}<span class="bar"></span>{p.engaged}</div>
+      </div>
+
+      <div>
+        {stages.map((s, si) => (
+          <div class="stage" style={`--c:${s.c}`}>
+            <span class="stage-dot" aria-hidden="true" style={`width:${s.size}px;height:${s.size}px;left:${-(s.size / 2 + 1)}px`}></span>
+            <div class="stage-head" data-reveal>
+              <h3 class="stage-name" style="margin:0">{p.stages[si].name}</h3>
+              <span class="level">
+                <span class="bars" aria-hidden="true">{[1, 2, 3].map((n) => <span class:list={{ on: n <= s.level }}></span>)}</span>
+                {p.stages[si].level}
+              </span>
+            </div>
+            <div class="cards">
+              {si === 0 && [
+                { n: '01', d: p.s01, url: LINKS.substack },
+                { n: '02', d: p.s02, url: LINKS.youtube },
+              ].map((c) => (
+                <a class="card" data-reveal href={c.url} target="_blank" rel="noopener">
+                  <div class="card-num">{c.n}</div>
+                  <h4 class="card-h">{c.d[0]}</h4>
+                  <p class="grow">{c.d[1]}</p>
+                  <span class="card-cta"><span class="dot"></span>{c.d[2]} ↗</span>
+                </a>
+              ))}
+              {si === 1 && [
+                { n: '03', d: p.s03 },
+                { n: '04', d: p.s04 },
+                { n: '05', d: p.s05 },
+              ].map((c) => (
+                <div class="card" data-reveal>
+                  <div class="card-top"><span class="card-num">{c.n}</span><span class="duration"><span class="dot"></span>{c.d[2]}</span></div>
+                  <h4 class="card-h">{c.d[0]}</h4>
+                  <p>{c.d[1]}</p>
+                  <div class="tags">{(c.d[3] as string[]).map((tag) => <span>{tag}</span>)}</div>
+                </div>
+              ))}
+              {si === 2 && [
+                { n: '06', d: p.s06 },
+                { n: '07', d: p.s07 },
+              ].map((c) => (
+                <div class="card" data-reveal>
+                  <div class="card-num">{c.n}</div>
+                  <h4 class="card-h">{c.d[0]}</h4>
+                  <p>{c.d[1]}</p>
+                  <div class="example"><span>{p.example}</span><span>{c.d[2]}</span></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

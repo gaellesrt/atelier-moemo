@@ -1,0 +1,14 @@
+---
+// Indicateur : chiffre / libellé / source (texte gris, lien souligné violet, ou étiquette violette).
+interface Props { num: string; label: string; src?: string; srcHref?: string; tag?: string }
+const { num, label, src, srcHref, tag } = Astro.props;
+---
+<div class="kpi" data-reveal>
+  <span class="kpi-num">{num}</span>
+  <div class="kpi-body">
+    <span class="kpi-label">{label}</span>
+    {srcHref && <a class="kpi-src" href={srcHref} target="_blank" rel="noopener">{src}<span class="arr" aria-hidden="true" style="margin-left:.25em">↗</span></a>}
+    {!srcHref && src && <span class="kpi-src">{src}</span>}
+    {tag && <span class="kpi-src-tag">{tag}</span>}
+  </div>
+</div>

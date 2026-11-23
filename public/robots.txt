@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moemo.io/sitemap-index.xml

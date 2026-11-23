@@ -1,0 +1,159 @@
+---
+import Base from '../layouts/Base.astro';
+import StepArt from './StepArt.astro';
+import Kpi from './Kpi.astro';
+import { ui, href, LINKS, type Lang } from '../i18n/ui';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = ui[lang];
+const w = t.problem.words;
+// Nuage : position (%), taille (cqw), style, durée et déphasage du flottement
+const cloud = [
+  { txt: w.slower, l: 2, top: 6, s: 5.4, cls: 'w-violet', d: 9, dl: -0.5 },
+  { txt: w.rework, l: 74, top: 5, s: 3.8, cls: 'w-violet', d: 11, dl: -0.6 },
+  { txt: 'Duplication', l: 60, top: 19, s: 6, cls: 'w-ink', d: 10, dl: -1.9 },
+  { txt: 'Friction', l: 27, top: 34, s: 11, cls: 'w-ink', d: 13, dl: -4.4 },
+  { txt: 'Silos', l: 4, top: 41, s: 4.6, cls: '', d: 8, dl: -3.3 },
+  { txt: w.misunderstandings, l: 60, top: 57, s: 4.2, cls: '', d: 12, dl: -6.8 },
+  { txt: w.underused, l: 6, top: 63, s: 4.2, cls: '', d: 10, dl: -6.3 },
+  { txt: w.trust, l: 40, top: 79, s: 3.8, cls: '', d: 9, dl: -7.1 },
+  { txt: w.delays, l: 82, top: 80, s: 3.8, cls: '', d: 12, dl: -9.6 },
+  { txt: w.kpis, l: 2, top: 89, s: 3.8, cls: '', d: 11, dl: -9.8 },
+];
+const cloudLabel = [
+  'Silos', w.slower, w.rework, 'Friction', w.misunderstandings, w.underused, w.trust, 'Duplication', w.delays, w.kpis,
+].join(', ');
+---
+<Base lang={lang} page="" title={t.meta.homeTitle} description={t.meta.homeDesc}>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-halos" aria-hidden="true"><span class="h1"></span><span class="h2x"></span><span class="h3"></span></div>
+    <div class="container">
+      <div class="hero-eyebrow" data-reveal lang="en">Context in motion</div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="sr-only">{t.hero.titleFull}</span>
+        <span class="ink" aria-hidden="true">
+          <span class="ink-text">{t.hero.titleA}<span class="ctx">{t.hero.titleCtx}</span>{t.hero.titleB}</span>
+          <span class="ink-pen"></span>
+        </span>
+      </h1>
+      <p class="hero-sub" data-reveal>{t.hero.sub}</p>
+      <div class="hero-actions" data-reveal>
+        <a class="btn btn-hero" href={LINKS.booking} target="_blank" rel="noopener">{t.cta}</a>
+        <a class="link" href="#services">{t.hero.explore}<span class="arr" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Le problème -->
+  <section class="section" id="probleme">
+    <div class="container">
+      <div class="eyebrow" data-reveal>{t.problem.eyebrow}</div>
+      <div class="split">
+        <div class="split-text">
+          <h2 class="h2" data-reveal>{t.problem.title}<span class="sub">{t.problem.titleB}<span class="ctx">{t.problem.titleCtx}</span>.</span></h2>
+          <p class="body" data-reveal>{t.problem.text}</p>
+          <Kpi num={t.problem.kpi} label={t.problem.kpiLabel} src="Precisely · 2025" srcHref={LINKS.precisely} />
+        </div>
+        <div class="cloud-panel dots" data-reveal>
+          <div class="cloud" data-cloud role="img" aria-label={cloudLabel}>
+            {cloud.map((c) => (
+              <span data-word aria-hidden="true" class={c.cls} style={`left:${c.l}%;top:${c.top}%;font-size:${c.s}cqw;--d:${c.d}s;--dl:${c.dl}s`}>{c.txt}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approche (épinglée pendant le dessin sur grand écran) -->
+  <section class="section pin-wrap" id="approche">
+    <div class="container" data-pin>
+      <div class="eyebrow" data-reveal>{t.approach.eyebrow}</div>
+      <div class="split">
+        <div class="split-text">
+          <h2 class="h2" data-reveal>{t.approach.title}<span class="sub" data-hand-anchor>{t.approach.titleB}</span></h2>
+          <p class="body" data-reveal>{t.approach.p1}</p>
+          <p class="body" data-reveal>{t.approach.p2}</p>
+          <Kpi num="400 → 35" label={t.approach.kpiLabel} src="Decathlon" />
+        </div>
+        <div class="approach-panel dots" data-reveal data-handbox>
+          {t.approach.steps.map(([verb, rest], i) => (
+            <div class="step">
+              <div class="step-pic" aria-hidden="true"><StepArt i={i} /></div>
+              <div class="step-label"><strong>{verb}</strong> {rest}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div data-pin-space aria-hidden="true"></div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="eyebrow" data-reveal>{t.services.eyebrow}</div>
+      <div class="split">
+        <div class="split-text">
+          <h2 class="h2" data-reveal>{t.services.title}<span class="sub">{t.services.titleB}</span></h2>
+          <p class="body" data-reveal>{t.services.punch}</p>
+          <Kpi num="40+" label={t.services.kpiLabel} src="Decathlon" />
+          <div style="display:flex"><a class="link see-all" data-reveal href={href(lang, 'services')}>{t.services.seeAll}<span class="arr" aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="mentor-panel dots" data-reveal>
+          <div>
+            <div class="tag">{t.services.mentorTag}</div>
+            <h3 class="h3">{t.services.mentorTitle}</h3>
+            <p class="mentor-text">{t.services.mentorText}</p>
+          </div>
+          <div class="mentor-actions">
+            <a class="btn btn-card" href={LINKS.booking} target="_blank" rel="noopener">{t.cta}</a>
+            <span class="small">{t.services.byEmail}<a class="link" href={LINKS.email}>hello@moemo.io<span class="arr" aria-hidden="true">↗</span></a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section class="section" id="apropos">
+    <div class="container">
+      <div class="eyebrow" data-reveal>{t.about.eyebrow}</div>
+      <div class="about-row">
+        <div class="photo" data-reveal>
+          <div class="blob" aria-hidden="true"></div>
+          <img src="/assets/gaelle-seret.webp" alt="Gaëlle Seret" width="409" height="409" loading="lazy" decoding="async" />
+        </div>
+        <div class="about-text">
+          <h2 class="h2" data-reveal>{t.about.title}<span class="sub">{t.about.titleB}</span></h2>
+          <p class="body" data-reveal>{t.about.p1}</p>
+          <p class="body" data-reveal>{t.about.p2a}<strong>moemo</strong>{t.about.p2b}</p>
+          <div class="signature" data-reveal>Gaëlle Seret</div>
+          <Kpi num="2 500" label={t.about.kpiLabel} tag="Newsletter" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partie sombre : Confiance (le contact et le pied de page viennent du layout) -->
+  <section class="trust" slot="dark" aria-labelledby="trust-title">
+    <div class="container">
+      <h2 class="eyebrow" id="trust-title" data-reveal style="margin:0">{t.trust.eyebrow}</h2>
+      <div class="clients">
+        <div class="client" data-reveal>
+          <div class="client-name">Pernod Ricard</div>
+          <div class="kpi"><span class="kpi-num">7</span><span class="kpi-label">{t.trust.pernod}</span></div>
+        </div>
+        <div class="client" data-reveal>
+          <div class="client-name">leboncoin</div>
+          <div class="kpi"><span class="kpi-num">17</span><span class="kpi-label">{t.trust.lbc}</span></div>
+        </div>
+        <div class="client" data-reveal>
+          <div class="client-name">Innovation Makers Alliance</div>
+          <div class="kpi"><span class="kpi-num">1</span><span class="kpi-label"><a class="link" href={LINKS.whitepaper} target="_blank" rel="noopener">{t.trust.ima}<span class="arr" aria-hidden="true">↗</span></a></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
