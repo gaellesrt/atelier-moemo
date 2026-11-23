@@ -50,6 +50,8 @@ export function initMotion() {
     requestAnimationFrame(() => { queued = false; paint(); });
   };
   paint();
+  // Le canvas gère maintenant le fond sombre : la partie noire peut redevenir transparente (voir global.css).
+  if (canvas && darkStart) document.documentElement.classList.add('motion-ready');
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
 
@@ -214,17 +216,33 @@ function initHand(reduce: boolean) {
     return clamp((vh * 0.5 - a) / (vh * 0.6)) * TMAX;
   };
 
-  fitPin();
-  alignDots();
-  window.addEventListener('resize', () => { fitPin(); alignDots(); });
+  const relayout = () => { fitPin(); alignDots(); };
+  relayout();
+  window.addEventListener('resize', relayout);
+  // Les polices changent la hauteur des blocs : on recalcule une fois qu'elles sont chargées.
+  document.fonts?.ready.then(relayout);
 
   if (reduce) { apply(TMAX); return; }
-  let cur = -1;
+
+  // La boucle ne tourne que quand la section est proche de l'écran, et s'arrête dès que le dessin a rattrapé le scroll.
+  let cur = -1, near = false, running = false;
   const tick = () => {
     const goal = target();
     const next = cur < 0 ? goal : cur + (goal - cur) * 0.06;
-    if (Math.abs(next - cur) > 0.3) { cur = Math.abs(goal - next) < 0.5 ? goal : next; apply(cur); }
-    requestAnimationFrame(tick);
+    const moving = Math.abs(next - cur) > 0.3;
+    if (moving) { cur = Math.abs(goal - next) < 0.5 ? goal : next; apply(cur); }
+    running = near && moving;
+    if (running) requestAnimationFrame(tick);
   };
-  requestAnimationFrame(tick);
+  const wake = () => { if (near && !running) { running = true; requestAnimationFrame(tick); } };
+  const section = pin?.parentElement || box;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver((entries) => {
+      near = entries.some((e) => e.isIntersecting);
+      wake();
+    }, { rootMargin: '50% 0px' }).observe(section);
+  } else near = true;
+  window.addEventListener('scroll', wake, { passive: true });
+  window.addEventListener('resize', wake);
+  wake();
 }

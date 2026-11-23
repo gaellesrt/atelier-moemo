@@ -1,4 +1,18 @@
 ---
+// Polices hébergées dans le site (aucun appel à Google) : sous-ensemble latin, graisses utilisées seulement.
+import '@fontsource/nunito/latin-300.css';
+import '@fontsource/nunito/latin-400.css';
+import '@fontsource/nunito/latin-600.css';
+import '@fontsource/nunito/latin-300-italic.css';
+import '@fontsource/nunito/latin-400-italic.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource/manrope/latin-800.css';
+// Préchargées : les deux fichiers visibles dès le premier écran (titre du hero, texte courant).
+import nunitoHero from '@fontsource/nunito/files/nunito-latin-300-normal.woff2?url';
+import manropeBody from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
 import '../styles/global.css';
 import { ui, href, LINKS, type Lang } from '../i18n/ui';
 
@@ -12,7 +26,6 @@ const { lang, page, title, description } = Astro.props;
 const t = ui[lang];
 const site = 'https://moemo.io';
 const url = site + href(lang, page);
-const other: Lang = lang === 'fr' ? 'en' : 'fr';
 const home = href(lang);
 // Sur l'accueil, les ancres restent sur la page ; ailleurs, elles pointent vers l'accueil.
 const anchor = (id: string) => (page === '' ? `#${id}` : `${home}#${id}`);
@@ -49,9 +62,8 @@ const halos = [
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
   <link rel="sitemap" href="/sitemap-index.xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preload" href={nunitoHero} as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href={manropeBody} as="font" type="font/woff2" crossorigin />
   <script is:inline>
     document.documentElement.classList.add('js');
     // Mémorise le choix de langue fait via le sélecteur ; redirige si la préférence diffère de la page.
@@ -95,9 +107,8 @@ const halos = [
       </nav>
     </header>
 
-    <main>
+    <main id="contenu">
       <slot />
-    </main>
 
     <div class:list={['dark-start on-dark', { short: page === 'services' }]} data-dark-start>
       <slot name="dark" />
@@ -111,11 +122,13 @@ const halos = [
           </div>
         </div>
       </section>
-      <footer class="footer">
-        <img src="/assets/logo-moemo-white.svg" alt="moemo." width="2757" height="419" loading="lazy" />
-        <div>moemo — Context in motion · <a class="link" href={LINKS.email}>hello@moemo.io</a></div>
-      </footer>
     </div>
+    </main>
+
+    <footer class="footer on-dark">
+      <img src="/assets/logo-moemo-white.svg" alt="moemo." width="2757" height="419" loading="lazy" />
+      <div>moemo — Context in motion · <a class="link" href={LINKS.email}>hello@moemo.io</a></div>
+    </footer>
   </div>
 
   <script>
