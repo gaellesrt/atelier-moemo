@@ -50,6 +50,8 @@ export function initMotion() {
     requestAnimationFrame(() => { queued = false; paint(); });
   };
   paint();
+  // Le canvas gère maintenant le fond sombre : la partie noire peut redevenir transparente (voir global.css).
+  if (canvas && darkStart) document.documentElement.classList.add('motion-ready');
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
 
