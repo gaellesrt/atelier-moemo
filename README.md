@@ -26,7 +26,7 @@ npm run preview  # sert dist/
 
 ## Déploiement
 
-GitHub Actions (`.github/workflows/deploy.yml`) construit et publie sur GitHub Pages à chaque push sur `main`.
+GitHub Actions (`.github/workflows/deploy.yml`) construit et publie sur GitHub Pages à chaque push sur `main`. Sur chaque PR, `.github/workflows/check.yml` lance le contrôle de types et le build.
 
 Réglages GitHub (Settings → Pages), à ne pas modifier :
 - **Source : GitHub Actions.** Le mode « Deploy from branch » publierait les fichiers source, pas le site.

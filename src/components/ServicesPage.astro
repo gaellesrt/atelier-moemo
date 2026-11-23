@@ -53,9 +53,9 @@ const stages = [
               ].map((c) => (
                 <a class="card" data-reveal href={c.url} target="_blank" rel="noopener">
                   <div class="card-num">{c.n}</div>
-                  <h4 class="card-h">{c.d[0]}</h4>
-                  <p class="grow">{c.d[1]}</p>
-                  <span class="card-cta"><span class="dot"></span>{c.d[2]} ↗</span>
+                  <h4 class="card-h">{c.d.title}</h4>
+                  <p class="grow">{c.d.text}</p>
+                  <span class="card-cta"><span class="dot"></span>{c.d.cta} ↗</span>
                 </a>
               ))}
               {si === 1 && [
@@ -64,10 +64,10 @@ const stages = [
                 { n: '05', d: p.s05 },
               ].map((c) => (
                 <div class="card" data-reveal>
-                  <div class="card-top"><span class="card-num">{c.n}</span><span class="duration"><span class="dot"></span>{c.d[2]}</span></div>
-                  <h4 class="card-h">{c.d[0]}</h4>
-                  <p>{c.d[1]}</p>
-                  <div class="tags">{(c.d[3] as string[]).map((tag) => <span>{tag}</span>)}</div>
+                  <div class="card-top"><span class="card-num">{c.n}</span> <span class="duration"><span class="dot"></span>{c.d.duration}</span></div>
+                  <h4 class="card-h">{c.d.title}</h4>
+                  <p>{c.d.text}</p>
+                  <div class="tags">{c.d.tags.map((tag) => <span>{tag}</span>)}</div>
                 </div>
               ))}
               {si === 2 && [
@@ -76,9 +76,9 @@ const stages = [
               ].map((c) => (
                 <div class="card" data-reveal>
                   <div class="card-num">{c.n}</div>
-                  <h4 class="card-h">{c.d[0]}</h4>
-                  <p>{c.d[1]}</p>
-                  <div class="example"><span>{p.example}</span><span>{c.d[2]}</span></div>
+                  <h4 class="card-h">{c.d.title}</h4>
+                  <p>{c.d.text}</p>
+                  <div class="example"><span>{p.example}</span> <span>{c.d.example}</span></div>
                 </div>
               ))}
             </div>

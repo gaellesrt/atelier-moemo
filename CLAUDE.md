@@ -36,11 +36,12 @@ Pas de suite de tests. Vérifier visuellement : desktop 1280 px, mobile 390 px, 
 | `src/scripts/motion.ts` | Tous les effets au scroll. |
 | `public/assets/` | Logos SVG, favicon, icônes, photo, image OG. |
 | `.github/workflows/deploy.yml` | Build + publication GitHub Pages à chaque push sur `main`. |
+| `.github/workflows/check.yml` | Contrôle de types + build sur chaque PR (doit être vert avant de merger). |
 
 ## Règles de design (handoff « Moemo brief design 5 », à respecter)
 
 - **Source de vérité des textes :** le document « Textes Site Moemo » du handoff. En cas d'écart avec une maquette, ce document fait foi.
-- **Typo :** Nunito (titres, graisses fines 300/400) et Manrope (texte). Pas de serif.
+- **Typo :** Nunito (titres, graisses fines 300/400) et Manrope (texte). Pas de serif. Polices hébergées dans le site via Fontsource (importées dans `Base.astro`) : ne pas réintroduire Google Fonts (vitesse, RGPD). Une nouvelle graisse = un nouvel import.
 - **Couleurs :** utiliser les variables de `global.css` (`--violet` `#6B28E0`, `--violet-bright` `#8F48FF`, `--cream` `#FFFCF8`, `--dark` `#0E0E12`…), jamais une nouvelle valeur en dur.
 - **Italique violet :** réservé au mot *contexte* / *context*. Seule exception validée : « une heure. » dans le titre de la page Services.
 - **Animations :** déclenchées au scroll uniquement. Aucun effet au pointeur (pas de magnétisme, d'inclinaison, de parallaxe souris).

@@ -201,7 +201,7 @@ a.kpi-src:hover { color: var(--violet); }
 .dark-start.short { background: linear-gradient(to bottom, transparent, var(--dark) 20vh); }
 /* Quand motion.ts a peint le fond (canvas fixe qui passe au noir au scroll), la section redevient transparente
    pour laisser voir les halos. Sans JS, ou si le script échoue, le dégradé ci-dessus garde le texte blanc lisible. */
-.motion-ready .dark-start { background: transparent; }
+.motion-ready .dark-start, .motion-ready .footer { background: transparent; }
 .trust { min-height: 110vh; display: flex; align-items: flex-start; padding: clamp(24px, 4vh, 48px) var(--gutter) clamp(80px, 10vw, 120px); }
 .trust .eyebrow { letter-spacing: .24em; color: var(--grey-light); }
 .clients { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(20px, 4vh, 40px); margin-top: clamp(36px, 6vh, 64px); }
@@ -217,7 +217,7 @@ a.kpi-src:hover { color: var(--violet); }
 .contact .btn-light { margin-top: 48px; }
 .contact .small { font-size: 15px; margin-top: 28px; color: var(--grey-light); }
 .contact .small .link { color: #fff; font-weight: 700; }
-.footer { padding: 32px var(--gutter); border-top: 1px solid rgba(255, 255, 255, .14); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.footer { color: #fff; background: var(--dark); padding: 32px var(--gutter); border-top: 1px solid rgba(255, 255, 255, .14); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .footer img { height: 22px; width: auto; display: block; }
 .footer div { font-size: 13px; color: var(--grey-light); }
 
@@ -246,7 +246,7 @@ a.kpi-src:hover { color: var(--violet); }
 .card { display: flex; flex-direction: column; color: var(--ink); text-decoration: none; background: rgba(255, 255, 255, .82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-radius: var(--radius-card); padding: clamp(24px, 4vw, 32px); box-shadow: var(--shadow-card); }
 a.card:hover { color: var(--ink); }
 .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.card-num { font-weight: 800; font-size: 13px; color: #9A9AA4; }
+.card-num { font-weight: 800; font-size: 13px; color: var(--grey); }
 .card-h { font-family: var(--font-text); font-weight: 700; font-size: 22px; margin: 14px 0 0; }
 .card p { font-size: 16px; line-height: 1.6; color: var(--text); margin: 12px 0 0; text-wrap: pretty; }
 .card .grow { flex: 1; }

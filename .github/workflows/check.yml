@@ -1,0 +1,25 @@
+name: Vérifier la PR
+
+# Construit le site et contrôle les types sur chaque pull request,
+# pour qu'une erreur soit vue avant d'arriver sur main (donc en ligne).
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Contrôle de types (astro check)
+        run: npx --yes -p @astrojs/check -p typescript astro check
+      - name: Build
+        run: npm run build
