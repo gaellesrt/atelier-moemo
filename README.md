@@ -23,12 +23,16 @@ npm run preview  # sert dist/
 | `src/components/StepArt.astro` | Pictos calligraphiés de l'Approche. |
 | `src/scripts/motion.ts` | Effets au scroll : halos, passage au noir, reveal, nuage de mots, dessin de l'Approche. |
 | `public/assets/` | Logos SVG, favicon, icônes, photo, image OG. |
-| `public/CNAME` | Domaine `moemo.io`. |
 
 ## Déploiement
 
 GitHub Actions (`.github/workflows/deploy.yml`) construit et publie sur GitHub Pages à chaque push sur `main`.
-Prérequis (une seule fois) : **Settings → Pages → Build and deployment → Source : GitHub Actions**.
+
+Réglages GitHub (Settings → Pages), à ne pas modifier :
+- **Source : GitHub Actions.** Le mode « Deploy from branch » publierait les fichiers source, pas le site.
+- **Custom domain : `moemo.io`**, avec **Enforce HTTPS** coché.
+
+Le domaine vit uniquement dans ces réglages. En publication par Actions, GitHub ignore tout fichier `CNAME` du repo : n'en ajoute pas.
 
 ## Référence design
 
