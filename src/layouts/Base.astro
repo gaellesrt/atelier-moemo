@@ -1,0 +1,131 @@
+---
+import '../styles/global.css';
+import { ui, href, LINKS, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  page: '' | 'services';
+  title: string;
+  description: string;
+}
+const { lang, page, title, description } = Astro.props;
+const t = ui[lang];
+const site = 'https://moemo.io';
+const url = site + href(lang, page);
+const other: Lang = lang === 'fr' ? 'en' : 'fr';
+const home = href(lang);
+// Sur l'accueil, les ancres restent sur la page ; ailleurs, elles pointent vers l'accueil.
+const anchor = (id: string) => (page === '' ? `#${id}` : `${home}#${id}`);
+const halos = [
+  { g: '-5,10,44,52,0,62', c: '143 72 255', a: 0.55, s: 62 },
+  { g: '105,15,58,44,1.7,56', c: '255 69 237', a: 0.5, s: 56 },
+  { g: '8,105,40,62,3.1,56', c: '113 245 255', a: 0.55, s: 56 },
+  { g: '100,100,62,64,4.4,42', c: '255 236 72', a: 0.55, s: 42 },
+  { g: '50,-18,50,40,2.4,36', c: '143 72 255', a: 0.45, s: 36 },
+];
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={url} />
+  <link rel="alternate" hreflang="fr" href={site + href('fr', page)} />
+  <link rel="alternate" hreflang="en" href={site + href('en', page)} />
+  <link rel="alternate" hreflang="x-default" href={site + href('fr', page)} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={site + '/assets/og-moemo.png'} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_US'} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#FFFCF8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script is:inline>
+    document.documentElement.classList.add('js');
+    // Mémorise le choix de langue fait via le sélecteur ; redirige si la préférence diffère de la page.
+    (function () {
+      try {
+        var cur = document.documentElement.lang;
+        var pref = localStorage.getItem('moemo-lang');
+        var nav = sessionStorage.getItem('moemo-nav');
+        if (pref && pref !== cur && !nav) {
+          var p = location.pathname.replace(/^\/en(\/|$)/, '/');
+          location.replace((pref === 'en' ? '/en' : '') + p + location.hash);
+        }
+        sessionStorage.setItem('moemo-nav', '1');
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="canvas" data-canvas aria-hidden="true">
+    {halos.map((h) => (
+      <div class="halo" data-g={h.g} style={`--c:${h.c};--a:${h.a};--s:${h.s}vmax`}></div>
+    ))}
+  </div>
+
+  <div class="page">
+    <header class="header">
+      <a class="logo" href={home} aria-label="moemo — accueil">
+        <img src="/assets/logo-moemo.svg" alt="moemo." width="2757" height="419" />
+      </a>
+      <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+        <a class="nav-link nav-wide" href={anchor('approche')}>{t.nav.approach}</a>
+        <a class="nav-link nav-wide" href={page === 'services' ? '#services' : anchor('services')}>{t.nav.services}</a>
+        <a class="nav-link nav-wide" href={anchor('apropos')}>{t.nav.about}</a>
+        <div class="lang" role="group" aria-label="Langue / Language">
+          {lang === 'fr'
+            ? <><span aria-current="true">FR</span><span class="sep" aria-hidden="true">·</span><a href={href('en', page)} hreflang="en" lang="en" data-lang="en">EN</a></>
+            : <><a href={href('fr', page)} hreflang="fr" lang="fr" data-lang="fr">FR</a><span class="sep" aria-hidden="true">·</span><span aria-current="true">EN</span></>}
+        </div>
+        <a class="btn btn-header" href={LINKS.booking} target="_blank" rel="noopener">{t.cta}</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <div class:list={['dark-start on-dark', { short: page === 'services' }]} data-dark-start>
+      <slot name="dark" />
+      <section class="contact" id="contact">
+        <div class="container">
+          <p class="next-move" data-reveal lang="en" style="margin:0">This is your next move.</p>
+          <h2 data-reveal>{t.contact.sub}</h2>
+          <a class="btn btn-light" data-reveal href={LINKS.booking} target="_blank" rel="noopener">{t.cta}</a>
+          <div class="small" data-reveal>
+            {t.contact.write}<a class="link" href={LINKS.email}>hello@moemo.io<span class="arr" aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+      <footer class="footer">
+        <img src="/assets/logo-moemo-white.svg" alt="moemo." width="2757" height="419" loading="lazy" />
+        <div>moemo — Context in motion · <a class="link" href={LINKS.email}>hello@moemo.io</a></div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    import { initMotion } from '../scripts/motion';
+    document.querySelectorAll<HTMLAnchorElement>('[data-lang]').forEach((a) =>
+      a.addEventListener('click', () => {
+        try { localStorage.setItem('moemo-lang', a.dataset.lang!); } catch (e) {}
+      })
+    );
+    initMotion();
+  </script>
+</body>
+</html>
